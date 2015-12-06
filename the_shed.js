@@ -22,7 +22,7 @@ if (Meteor.isClient) {
     // This code only runs on the client
     Meteor.subscribe("tasks");
 
-    Template.body.helpers({
+    Template.taskView.helpers({
         tasks: function() {
             if (Session.get("hideCompleted")) {
                 // If hide completed is checked, filter tasks
@@ -60,15 +60,7 @@ if (Meteor.isClient) {
         }
     });
 
-    Template.body.created = function(){
-        var numberOfUpdates = 0;
-        emitter.on('gridUpdate', function(data){
-            Session.set('numberOfUpdates', ++numberOfUpdates);
-        });
-        Session.set('numberOfUpdates', numberOfUpdates);
-    }
-
-    Template.body.events({
+    Template.taskView.events({
         "submit .new-task": function(event) {
             // Prevent default browser form submit
             event.preventDefault();
@@ -162,23 +154,3 @@ Meteor.methods({
         });
     }
 });
-
-function randomGrid(){
-    var rows = [];
-    _.range(12)
-        .forEach(function(n){
-            var row = [];
-            _.range(12)
-                .forEach(function(n){
-                    var occupied = Math.random() > 0.95;
-                    val = {
-                        occupied: occupied,
-                        colour: occupied ? "#9C9" : "#fff",
-                        occupantType: "plant"
-                    };
-                    row.push(val);
-                });
-            rows.push(row);
-        });
-    return  rows;
-}

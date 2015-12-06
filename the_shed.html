@@ -5,7 +5,7 @@
 <body>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
+      <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -18,63 +18,104 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
             <li>{{> loginButtons}}</li>
           </ul>
         </div>
       </div>
     </nav>
-    <header class="intro-header">
-      <div class="container">
-          <div class="row">
-              <div class="col-lg-12">
-                  <div class="page-heading">
-                      <h1>Todo List ({{incompleteCount}})</h1>
-                  </div>
+    <div class="container-fluid shed-container-full">
 
+        <header class="intro-header">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-lg-12">
+                      <div class="page-heading">
+                          <h1 class="pull-right">The Shed</h1>
+                      </div>
+
+                  </div>
               </div>
           </div>
-      </div>
-    </header>
+        </header>
+    </div>
 
-    <button type="button" name="button" class="randomiseGrid">Randomise Grid <strong>({{numberOfUpdates}})</strong></button>
-
-
-    {{>grid}}
-
-    <label class="hide-completed">
-      <input type="checkbox" checked="{{hideCompleted}}" />
-      Hide Completed Tasks
-    </label>
-
-    {{#if currentUser}}
-      <form class="new-task">
-        <input type="text" name="text" placeholder="Type to add new tasks" />
-      </form>
-    {{/if}}
-
-      <ul>
-        {{#each tasks}}
-          {{> task}}
-        {{/each}}
-      </ul>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                {{> taskView}}
+            </div>
+            <div class="col-md-6">
+                {{> gridView}}
+            </div>
+        </div>
+    </div>
 </body>
 
+<template name="taskView">
+    <h1>Todo List ({{incompleteCount}})</h1>
+    <hr>
+
+      <form class="new-task">
+          <div class="form-group">
+              {{#if currentUser}}
+                <input class="form-control" type="text" name="text" placeholder="Type to add new tasks" />
+              {{/if}}
+
+                <div class="checkbox">
+                    <label class="hide-completed">
+                      <input type="checkbox" checked="{{hideCompleted}}" />
+                      Hide Completed Tasks
+                    </label>
+                </div>
+        </div>
+      </form>
+    {{#each tasks}}
+      {{> task}}
+    {{/each}}
+</template>
+
+<template name="gridView">
+    <h1>Grid of things</h1>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="button" name="button" class="btn btn-success randomiseGrid">Randomise Grid <strong>({{numberOfUpdates}})</strong></button>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            {{>grid}}
+        </div>
+    </div>
+</template>
+
 <template name="task">
-  <li class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}}">
-    <button class="delete">&times;</button>
+  <div class="row {{#if checked}}bg-success{{/if}} {{#if private}}bg-info{{/if}}">
+      <div class="col-xs-9">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
+                    <span class="text"><strong>{{username}}</strong> - {{text}}</span>
+                </label>
+            </div>
+        </div>
 
-    <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
-
-    {{#if isOwner}}
-      <button class="toggle-private">
-        {{#if private}}
-          Private
-        {{else}}
-          Public
-        {{/if}}
-      </button>
-    {{/if}}
-
-    <span class="text"><strong>{{username}}</strong> - {{text}}</span>
-  </li>
+    <div class="col-xs-3">
+          <div class="btn-group pull-right">
+              {{#if isOwner}}
+                <button class="btn btn-primary toggle-private">
+                  {{#if private}}
+                    Private
+                  {{else}}
+                    Public
+                  {{/if}}
+                </button>
+              {{/if}}
+              <button class="btn btn-danger">&times;</button>
+          </div>
+      </div>
+  </div>
 </template>

@@ -1,3 +1,12 @@
+body {
+    padding-top: 50px;
+}
+
+.shed-container-full {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
 .intro-header {
     background-color: gray;
     background: no-repeat center center;
@@ -17,11 +26,11 @@
 
 .intro-header .page-heading {
     padding: 200px 0 150px;
-    color: #eee;
 }
 
 .intro-header .page-heading h1 {
     font-size: 120px;
+    color: #333;
 }
 
 .intro-header .page-heading hr {
