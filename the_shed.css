@@ -30,3 +30,13 @@
     border-width: 6px;
     margin-top: 20px;
 }
+
+.grid .cell{
+    border: 1px solid #CCC;
+    height: 30px;
+    width: 30px;
+}
+
+.grid .full{
+    background-color: #000;
+}

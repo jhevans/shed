@@ -1,0 +1,17 @@
+<head>
+  <title>Shed - Grid</title>
+</head>
+
+<template name="grid">
+    <div class="container grid">
+      {{#each rows}}
+        <div class="row">
+            {{#each this}}
+                <div class="col-xs-1 cell {{#if this}}full{{/if}}">                    
+
+                </div>
+            {{/each}}
+        </div>
+      {{/each}}
+    </div>
+</template>
