@@ -3,11 +3,12 @@
 </head>
 
 <template name="grid">
+    This is: {{this}}
     <div class="container grid">
       {{#each rows}}
         <div class="row">
             {{#each this}}
-                <div class="col-xs-1 cell {{#if this}}full{{/if}}">                    
+                <div class="col-xs-1 cell {{#if this}}full{{/if}}">
 
                 </div>
             {{/each}}

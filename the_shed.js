@@ -1,4 +1,6 @@
 Tasks = new Mongo.Collection("tasks");
+Events = new Mongo.Collection("events");
+
 
 if (Meteor.isServer) {
     // This code only runs on the server
@@ -69,6 +71,9 @@ if (Meteor.isClient) {
         },
         "change .hide-completed input": function(event) {
             Session.set("hideCompleted", event.target.checked);
+        },
+        "click button.randomiseGrid": function(){
+            Meteor.call("addEvent", "gridUpdate", randomGrid());
         }
     });
 
@@ -145,3 +150,18 @@ Meteor.methods({
         });
     }
 });
+
+function randomGrid(){
+    var rows = [];
+    _.range(12)
+        .forEach(function(n){
+            var row = [];
+            _.range(12)
+                .forEach(function(n){
+                    val = Math.random() > 0.9;
+                    row.push(val);
+                });
+            rows.push(row);
+        });
+    return  rows;
+}
