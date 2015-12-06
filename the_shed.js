@@ -1,5 +1,6 @@
 Tasks = new Mongo.Collection("tasks");
 Events = new Mongo.Collection("events");
+emitter = new EventEmitter();
 
 
 if (Meteor.isServer) {
@@ -53,8 +54,19 @@ if (Meteor.isClient) {
                     $ne: true
                 }
             }).count();
+        },
+        numberOfUpdates: function(){
+            return Session.get("numberOfUpdates");
         }
     });
+
+    Template.body.created = function(){
+        var numberOfUpdates = 0;
+        emitter.on('gridUpdate', function(data){
+            Session.set('numberOfUpdates', ++numberOfUpdates);
+        });
+        Session.set('numberOfUpdates', numberOfUpdates);
+    }
 
     Template.body.events({
         "submit .new-task": function(event) {
@@ -158,7 +170,12 @@ function randomGrid(){
             var row = [];
             _.range(12)
                 .forEach(function(n){
-                    val = Math.random() > 0.9;
+                    var occupied = Math.random() > 0.95;
+                    val = {
+                        occupied: occupied,
+                        colour: occupied ? "#9C9" : "#fff",
+                        occupantType: "plant"
+                    };
                     row.push(val);
                 });
             rows.push(row);
